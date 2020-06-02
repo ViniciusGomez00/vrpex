@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+		<link href="ui.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<div id="actionmenu">
+			<div id="mainmenu">
+				<button class="menuoption" data-sub="moldes">Montar armas</button>
+				<button class="menuoption" data-action="fechar">Fechar</button>
+			</div>
+
+			<div data-parent="mainmenu" id="moldes" style="display: none;">
+				<button class="menuoption" data-action="check-glock"><l>Glock</l><r>3 Minutos</r></button>
+				<button class="menuoption" data-action="armamentos-comprar-doze"><l>Remington</l><r>3 Minutos</r></button>
+				<button class="menuoption" data-action="armamentos-comprar-zig"><l>Mtar-21</l><r>5 Minutos</r></button>
+				<button class="menuoption" data-action="armamentos-comprar-fall"><l>AK-47</l><r>10 Minutos</r></button>
+			</div>
+		</div>
+		<script src="ui.js" type="text/javascript"></script>
+	</body>
+</html>
