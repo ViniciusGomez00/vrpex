@@ -29,19 +29,7 @@ local munin = {
     {"m4a1",500,250,"wammo|WEAPON_CARBINERIFLE"}
 }
 
---//////////////////////////////////// NÃO MEXA ///////////////////////////////////////////////////////////
-vRP._prepare('vRP/sel_arsenal',"SELECT * FROM vrp_organizacoes WHERE organizacao = @organizacao")
-vRP._prepare('vRP/att_geral',"SELECT * FROM vrp_organizacoes WHERE organizacao = @organizacao")
-vRP._prepare('vRP/ver_armas',"SELECT * FROM vrp_organizacoes WHERE organizacao = @organizacao")
-vRP._prepare('vRP/att_banco',"UPDATE vrp_organizacoes SET banco = @banco WHERE user_id = @user_id")
-vRP._prepare('vRP/att_banco2',"UPDATE vrp_organizacoes SET banco = @banco WHERE organizacao = @organizacao")
 
-vRP._prepare('vRP/att_pistola','UPDATE vrp_organizacoes SET glock = @glock WHERE organizacao = @organizacao')
-vRP._prepare('vRP/att_doze','UPDATE vrp_organizacoes SET remington = @remington WHERE organizacao = @organizacao')
-vRP._prepare('vRP/att_sub','UPDATE vrp_organizacoes SET mp5 = @mp5 WHERE organizacao = @organizacao')
-vRP._prepare('vRP/att_sub2','UPDATE vrp_organizacoes SET sigsauer = @sigsauer WHERE organizacao = @organizacao')
-vRP._prepare('vRP/att_fuzil','UPDATE vrp_organizacoes SET m4a1 = @m4a1 WHERE organizacao = @organizacao')
-vRP._prepare('vRP/att_fuzil2','UPDATE vrp_organizacoes SET fall = @fall WHERE organizacao = @organizacao')
 --/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 RegisterNetEvent('blip:comprar')
@@ -110,7 +98,7 @@ AddEventHandler('blip:comprar',function(org)
 end)
 
 RegisterNetEvent('blip:retirar')
-AddEventHandler('blip:retirar',function(org)
+AddEventHandler('blip:retirarl',function(org)
     local source = source 
     local user_id = vRP.getUserId(source)
     if user_id and vRP.hasPermission(user_id,'policia.permissao') then
@@ -236,7 +224,7 @@ AddEventHandler('blip:retirar',function(org)
 end)
 
 RegisterServerEvent('retirar:arma')
-AddEventHandler('retirar:arma',function(source,arma,org)
+AddEventHandler('retirar:armal',function(source,arma,org)
     local user_id = vRP.getUserId(source)
     local rows = vRP.query('vRP/ver_armas',{organizacao = org})
     for k,v in pairs(rows) do
@@ -487,37 +475,6 @@ AddEventHandler('dar:colete', function()
 	end
 end)
 
-RegisterServerEvent('deposito:verba')
-AddEventHandler('deposito:verba',function()
-    local org = "policia"
-    local org2 = "rota"
-    local rows = vRP.query('vRP/att_geral',{organizacao = org})
-    local rows2 = vRP.query('vRP/att_geral',{organizacao = org2})
-    for k,v in pairs(rows) do
-        local verba = rows[1].banco
-        local ddverba = verba + dverba
-        vRP.execute('vRP/att_banco2',{banco = ddverba,organizacao = org})
-    end
-    for k,v in pairs(rows2) do
-        local verba = rows2[1].banco
-        local ddverba = verba + dverba
-        vRP.execute('vRP/att_banco2',{banco = ddverba,organizacao = org2})
-    end
-end)
-
-Citizen.CreateThread(function()
-    updateTime()
-end)
-
-function updateTime()
-    while tempo > 0 do
-        Wait(1000*60)
-        tempo = tempo -1
-    end
-    TriggerEvent("deposito:verba")
-    tempo = 120
-    updateTime()
-end
 
 
 
